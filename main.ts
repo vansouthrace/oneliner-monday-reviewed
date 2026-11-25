@@ -1,7 +1,23 @@
-import * as fs from "node:fs";
+// Monday, Reviewed in One Line
+// Writes the funniest one-line review of my Monday (under 200 characters)
+// to /output/entry.txt.
 
-const entry = "Monday gets one star: it showed up uninvited, ruined my weekend's sequel, and had the nerve to bring a meeting with it.";
+import { mkdirSync, writeFileSync } from "node:fs";
 
-fs.mkdirSync("/output", {recursive: true});
-fs.writeFileSync("/output/entry.txt", entry, "utf8");
-console.log("wrote /output/entry.txt (" + entry.length + " chars)");
+const entry = "One star. Monday started with my alarm, peaked at the vending machine, and ended with me apologizing to a printer.";
+
+if (entry.length < 1 || entry.length > 200) {
+  throw new Error(`entry must be 1-200 characters, got ${entry.length}`);
+}
+
+if (entry.trim().length === 0) {
+  throw new Error("entry must not be only whitespace");
+}
+
+if (entry.includes("\n")) {
+  throw new Error("entry must be a single line");
+}
+
+mkdirSync("/output", { recursive: true });
+writeFileSync("/output/entry.txt", entry, "utf8");
+console.log(`wrote ${entry.length} characters to /output/entry.txt`);
